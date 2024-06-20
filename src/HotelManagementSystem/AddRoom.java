@@ -1,0 +1,162 @@
+package HotelManagementSystem;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AddRoom extends JFrame implements ActionListener {
+
+    JTextField t2,t4;
+    JComboBox t3,t5,t6;
+
+    JButton b1,b2;
+    AddRoom(){
+        JPanel panel=new JPanel();
+        panel.setBounds(5,5,875,490);
+        panel.setBackground(new Color(3,45,48));
+        panel.setLayout(null);
+        add(panel);
+
+        //Add rooms
+        JLabel l1=new JLabel("Add Rooms");
+        l1.setBounds(194,10,160,22);
+        l1.setFont(new Font("Tahoma",Font.BOLD,22));
+        l1.setForeground(Color.white);
+        panel.add(l1);
+
+        //Room number
+        JLabel l2=new JLabel("Room Number");
+        l2.setBounds(64,70,152,22);
+        l2.setFont(new Font("Tahoma",Font.BOLD,14));
+        l2.setForeground(Color.white);
+        panel.add(l2);
+
+        //Text feild for room number
+        t2=new JTextField();
+        t2.setBounds(200,70,156,20);
+        t2.setFont(new Font("Tahoma",Font.PLAIN,14));
+        t2.setForeground(Color.white);
+        t2.setBackground(new Color(16,108,115));
+        panel.add(t2);
+
+        //Availability
+        JLabel l3=new JLabel("Availability");
+        l3.setBounds(64,110,152,22);
+        l3.setFont(new Font("Tahoma",Font.BOLD,14));
+        l3.setForeground(Color.white);
+        panel.add(l3);
+
+        //Dropdown for availability
+        t3=new JComboBox(new String[]{"Available","Occupied"});
+        t3.setBounds(200,110,156,20);
+        t3.setFont(new Font("Tahoma",Font.PLAIN,14));
+        t3.setForeground(Color.white);
+        t3.setBackground(new Color(16,108,115));
+        panel.add(t3);
+
+        //Price
+        JLabel l4=new JLabel("Price");
+        l4.setBounds(64,150,152,22);
+        l4.setFont(new Font("Tahoma",Font.BOLD,14));
+        l4.setForeground(Color.white);
+        panel.add(l4);
+
+        //Text feild for price
+        t4=new JTextField();
+        t4.setBounds(200,150,156,20);
+        t4.setFont(new Font("Tahoma",Font.PLAIN,14));
+        t4.setForeground(Color.white);
+        t4.setBackground(new Color(16,108,115));
+        panel.add(t4);
+
+        //Cleaning status
+        JLabel l5=new JLabel("Cleaning Status");
+        l5.setBounds(64,190,152,22);
+        l5.setFont(new Font("Tahoma",Font.BOLD,14));
+        l5.setForeground(Color.white);
+        panel.add(l5);
+
+        //DropDown for cleaning status
+        t5=new JComboBox(new String[]{"Cleaned","Dirty"});
+        t5.setBounds(200,190,156,20);
+        t5.setFont(new Font("Tahoma",Font.PLAIN,14));
+        t5.setForeground(Color.white);
+        t5.setBackground(new Color(16,108,115));
+        panel.add(t5);
+
+        //Bed Type
+        JLabel l6=new JLabel("Bed Type");
+        l6.setBounds(64,230,152,22);
+        l6.setFont(new Font("Tahoma",Font.BOLD,14));
+        l6.setForeground(Color.white);
+        panel.add(l6);
+
+        //DropDown for Bed Type
+        t6=new JComboBox(new String[]{"Single Bed","Double Bed"});
+        t6.setBounds(200,230,156,20);
+        t6.setFont(new Font("Tahoma",Font.PLAIN,14));
+        t6.setForeground(Color.white);
+        t6.setBackground(new Color(16,108,115));
+        panel.add(t6);
+
+        //ADD Button
+        b1 =new JButton("ADD");
+        b1.setBounds(64,321,111,33);
+        b1.setBackground(Color.BLACK);
+        b1.setForeground(Color.white);
+        b1.addActionListener(this);
+        panel.add(b1);
+
+        //BACK Button
+        b2 =new JButton("BACK");
+        b2.setBounds(198,321,111,33);
+        b2.setBackground(Color.BLACK);
+        b2.setForeground(Color.white);
+        b2.addActionListener(this);
+        panel.add(b2);
+
+        ImageIcon imageIcon=new ImageIcon(ClassLoader.getSystemResource("icon/room.png"));
+        Image image=imageIcon.getImage().getScaledInstance(300,300,Image.SCALE_DEFAULT);
+        ImageIcon imageIcon1=new ImageIcon(image);
+        JLabel label=new JLabel(imageIcon1);
+        label.setBounds(500,60,300,300);
+        panel.add(label);
+
+        setUndecorated(true);
+        setLocation(20,200);
+        setLayout(null);
+        setSize(885,500);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==b1){
+            try{
+                con c=new con();
+                String room=t2.getText();
+                String ava=(String)t3.getSelectedItem();
+                String status=(String)t5.getSelectedItem();
+                String price=t4.getText();
+                String type=(String)t6.getSelectedItem();
+
+                //query to insert data into database
+                String q ="insert into room values('"+room+"','"+ava+"','"+status+"','"+price+"','"+type+"')";
+                c.statement.executeUpdate(q);
+
+                JOptionPane.showMessageDialog(null,"Room Successfully Added");
+                setVisible(true);
+
+            }catch (Exception E){
+                E.printStackTrace();
+            }
+        }else{
+            setVisible(false);
+        }
+    }
+
+    public static void main(String[] args) {
+        new AddRoom();
+    }
+}
